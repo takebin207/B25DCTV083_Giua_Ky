@@ -2,10 +2,7 @@ import { useState } from "react";
 import type { FormEvent } from "react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 
-export default function Login({
-  loggedIn,
-  onLogin,
-}: {
+export default function Login({ loggedIn, onLogin }: {
   loggedIn: boolean;
   onLogin: () => void;
 }) {
@@ -29,58 +26,25 @@ export default function Login({
       onLogin();
       navigate(destination, { replace: true });
     } catch {
-      setError(
-        "Trình duyệt không cho phép lưu phiên đăng nhập. Hãy bật quyền lưu trữ rồi thử lại.",
-      );
+      setError("Không lưu được phiên đăng nhập. Hãy kiểm tra quyền lưu trữ của trình duyệt.");
     }
   }
 
   return (
     <section className="form-page login-page">
-      <Link className="back-link" to="/">
-        ← Về trang chủ
-      </Link>
-      <span className="eyebrow">CHÀO MỪNG TRỞ LẠI</span>
-      <h1>
-        Một câu chuyện mới
-        <br />
-        đang chờ bạn viết.
-      </h1>
-      <p className="muted">
-        Đăng nhập để chia sẻ ý tưởng của bạn với MiniBlog.
-      </p>
+      <h1>Đăng nhập</h1>
       <form onSubmit={submit}>
         <label htmlFor="username">Tên đăng nhập</label>
-        <input
-          id="username"
-          autoComplete="username"
-          placeholder="Nhập tên đăng nhập"
-          required
-          value={username}
-          onChange={(event) => setUsername(event.target.value)}
-        />
+        <input id="username" autoComplete="username" required value={username}
+          onChange={(event) => setUsername(event.target.value)} />
         <label htmlFor="password">Mật khẩu</label>
-        <input
-          id="password"
-          type="password"
-          autoComplete="current-password"
-          placeholder="Nhập mật khẩu"
-          required
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-        />
-        {error && (
-          <p role="alert" className="field-error">
-            {error}
-          </p>
-        )}
-        <button className="button full-width" type="submit">
-          Đăng nhập →
-        </button>
+        <input id="password" type="password" autoComplete="current-password" required value={password}
+          onChange={(event) => setPassword(event.target.value)} />
+        {error && <p className="field-error" role="alert">{error}</p>}
+        <button type="submit">Đăng nhập</button>
       </form>
-      <p className="demo-note">
-        Tài khoản demo: <strong>admin</strong> / <strong>123456</strong>
-      </p>
+      <p className="demo-note">Tài khoản demo: <strong>admin / 123456</strong></p>
+      <Link to="/">Về trang chủ</Link>
     </section>
   );
 }

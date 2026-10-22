@@ -1,60 +1,61 @@
 # MiniBlog
 
-Bài tập blog dùng React, TypeScript và Vite. Có 4 bài tóm tắt truyện và 12 bình luận giả lập để trình diễn, tham khảo từ [bài tổng hợp trên Eva.vn](https://eva.vn/nuoi-con-khoe-day-con-khon/truyen-co-tich-4-cau-chuyen-dan-gian-viet-nam-ngan-nhung-mang-y-nghia-sau-sac-c429a527130.html). Mỗi bài có chủ đề, người đăng, ngày đăng và liên kết nguồn. Dữ liệu mẫu nằm trong mã nguồn, không cần gọi API và không ghi đè bài người dùng tự tạo.
+Bài thực hành React + TypeScript + Vite: danh sách bài viết, tìm kiếm, phân trang, chi tiết, bình luận mẫu, đăng nhập và viết bài.
 
 ## Chạy dự án
-
-Cài Node.js 20.19+ hoặc 22.12+, sau đó chạy:
 
 ```bash
 npm install
 npm run dev
 ```
 
-Mở địa chỉ Vite in ra trong terminal (thường là http://localhost:5173).
+Kiểm tra bản build: `npm run build`. Xem bản build: `npm run preview`.
 
-```bash
-npm run build
-npm run preview
-```
+## Chức năng
 
-Lệnh build kiểm tra TypeScript và tạo thư mục `dist`.
+- `/`: tìm tiêu đề bằng `filter`, chia trang bằng `slice`, 3 bài/trang.
+- `/posts/:id`: tìm bài theo ID, hiển thị nội dung và bình luận tương ứng.
+- `/login`: tài khoản demo **admin / 123456**, lưu phiên trong `sessionStorage`.
+- `/write`: yêu cầu đăng nhập; kiểm tra tiêu đề 5–150 ký tự, nội dung 20–10.000 ký tự; lưu bài vào `localStorage`.
+- Đường dẫn hoặc bài không tồn tại: hiện 404.
 
-## Các trang
+Bài tự tạo giữ nguyên sau khi tải lại trang, chỉ lưu trên trình duyệt đang dùng. Đăng nhập là mô phỏng, không có backend. Bình luận chỉ để xem, chưa có chức năng gửi.
 
-| Đường dẫn          | Chức năng                                           |
-| ------------------ | --------------------------------------------------- |
-| `/`                | Danh sách, tìm kiếm tiêu đề, phân trang 3 bài/trang |
-| `/posts/:id`       | Chi tiết bài viết và bình luận                      |
-| `/login`           | Đăng nhập                                           |
-| `/write`           | Viết bài, yêu cầu đăng nhập                         |
-| Các đường dẫn khác | Trang 404                                           |
+## Các file chính
 
-Tài khoản: **admin** / **123456**. Phiên đăng nhập lưu trong `sessionStorage` của tab hiện tại. Đây là đăng nhập mô phỏng cho bài tập, không phải cơ chế xác thực dùng cho hệ thống thật.
+- `src/App.tsx`: menu và các route.
+- `src/pages/`: bốn trang của web.
+- `src/storage.ts`: đọc, lưu bài tự tạo và ghép với bài mẫu.
+- `src/sampleData.ts`: 4 truyện tóm tắt, 12 bình luận giả lập.
+- `src/types.ts`: kiểu dữ liệu bài viết và bình luận.
+- `src/components.tsx`: trang 404.
+- `src/style.css`: CSS cơ bản, một breakpoint cho điện thoại.
 
-Tiêu đề cần 5–150 ký tự, nội dung cần 20–10.000 ký tự sau khi bỏ khoảng trắng ở hai đầu. Bài mới được lưu vào `localStorage` với khóa `miniblog_posts`, có ID bắt đầu bằng `local-`. Bài mới xuất hiện đầu danh sách và vẫn còn khi tải lại trang. Bài viết chưa có bình luận.
+Nguồn truyện: [bài tổng hợp trên Eva.vn](https://eva.vn/nuoi-con-khoe-day-con-khon/truyen-co-tich-4-cau-chuyen-dan-gian-viet-nam-ngan-nhung-mang-y-nghia-sau-sac-c429a527130.html). Tên, email và nội dung bình luận đều là giả lập.
 
-## Tổ chức mã
+## Gợi ý tự luyện trong 90 phút
 
-- `src/App.tsx`: khung trang, router và trạng thái đăng nhập.
-- `src/pages/`: các trang của ứng dụng.
-- `src/storage.ts`: đọc, kiểm tra dữ liệu localStorage và lưu bài viết.
-- `src/sampleData.ts`: 4 bài tóm tắt và 12 bình luận mẫu; tên, email và nội dung bình luận đều là giả lập.
-- `src/components.tsx`: trạng thái tải, báo lỗi và trang 404.
-- `src/types.ts`: kiểu bài viết và bình luận.
-- `src/style.css`: giao diện và bố cục responsive.
+Thời gian dưới đây là mục tiêu luyện tập, tùy mức độ quen React:
 
-## Kiểm tra thủ công
+| Thời gian | Nội dung |
+| --- | --- |
+| 0–10 phút | Tạo dự án, khai báo dữ liệu và kiểu dữ liệu |
+| 10–30 phút | Menu, route, danh sách và chi tiết |
+| 30–45 phút | Tìm kiếm, phân trang và bình luận mẫu |
+| 45–65 phút | Đăng nhập, chặn trang viết, form và lưu bài |
+| 65–80 phút | CSS cho máy tính và điện thoại |
+| 80–90 phút | Kiểm tra chức năng, sửa lỗi và build |
 
-1. Mở trang chủ: có 4 bài mẫu, 3 bài ở trang đầu và 1 bài ở trang sau. Tìm “Thần Sắt”, sau đó tìm một từ không tồn tại và xóa tìm kiếm.
-2. Mở bài mẫu để xem chủ đề, ngày đăng, nguồn và 3 bình luận. Mở bài tự tạo để xem trạng thái chưa có bình luận. Đường dẫn không tồn tại như `/posts/1` hiển thị trang 404.
-3. Chưa đăng nhập, vào thẳng `/write`: ứng dụng chuyển đến đăng nhập. Thử sai mật khẩu rồi đăng nhập đúng.
-4. Gửi form viết bài trống, nhập toàn khoảng trắng, nhập quá ngắn; kiểm tra thông báo. Nhập đủ dữ liệu rồi đăng bài.
-5. Quay về trang chủ, kiểm tra bài mới ở đầu danh sách. Tải lại trang và mở lại bài đó.
-6. Đăng xuất, vào lại `/write` để kiểm tra chặn truy cập.
-7. Mở một đường dẫn bất kỳ không tồn tại để xem trang 404.
-8. Dùng chế độ Offline trong DevTools rồi tải lại trang: bài tự tạo và bài mẫu vẫn hiển thị mà không cần API.
-9. Kiểm tra trên kích thước điện thoại và dùng Tab để di chuyển qua các nút, trường nhập.
+Bản tham khảo này có AI hỗ trợ chỉnh sửa. Nếu bài kiểm tra không cho dùng AI, hãy tự thực hiện theo quy định của môn học.
 
-Font Google có font hệ thống thay thế khi không tải được. Khi triển khai lên hosting tĩnh, cấu hình chuyển các đường dẫn về `index.html` để BrowserRouter hoạt động khi tải lại trang con.
+## Kiểm tra nhanh
 
+1. Trang chủ có 4 bài, trang 1 có 3 bài, trang 2 có 1 bài.
+2. Tìm “Thần Sắt”, thử từ không tồn tại rồi xóa tìm kiếm.
+3. Mở bài mẫu: có nguồn và 3 bình luận; mở ID sai: hiện 404.
+4. Chưa đăng nhập thì `/write` chuyển đến `/login`; đăng nhập sai báo lỗi, đăng nhập đúng quay lại viết bài.
+5. Nhập toàn khoảng trắng hoặc nội dung quá ngắn: báo lỗi. Đăng bài hợp lệ, quay về danh sách và tải lại để kiểm tra bài còn lưu.
+6. Đăng xuất và kiểm tra không vào được `/write`.
+7. Kiểm tra ở màn hình điện thoại, sau đó chạy build.
+
+Khi đưa lên hosting tĩnh, cấu hình chuyển đường dẫn về `index.html` để tải lại trang con bằng BrowserRouter.
